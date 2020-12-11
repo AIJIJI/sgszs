@@ -37,15 +37,16 @@
   margin-top: 0rpx;
   margin-bottom: 40rpx;
 }
-
+/* 
 .function-group-content {
   border: 10px;
   display: flex;
   flex-direction: row;
+  margin: 40rpx;
 }
 
 .function-button {
   border: 10px;
   display: flex;
   flex-direction: row;
-}
+} */

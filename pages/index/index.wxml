@@ -1,38 +1,18 @@
 <!--index.wxml-->
 <view class="function-box">
     <view class="function-groups">
-      <view class="function-group-title">
-        <text>随机</text>
-      </view>
       <view class="function-group-content">
         <button bindtap="tapLangxi">狼袭</button>
+        <button bindtap="tapGeweishu">个位数</button>
         <button bindtap="tapXionghuo">凶镬</button>
-        <button bindtap="tapJuexiang">绝响</button>
-      </view>
-    </view>
-    
-    <view class="function-groups">
-      <view class="function-group-title">
-        <text>设置</text>
       </view>
       <view class="function-group-content">
-        <button bindtap="tapSetDianhu">点虎</button>
-        <button bindtap="tapXionghuo">先辅</button>
-        <button bindtap="tapJuexiang">闭境</button>
-        <button bindtap="tapJuexiang">设伏</button>
-      </view>
-    </view>
-    
-    <view class="function-groups">
-      <view class="function-group-title">
-        <text>查看</text>
+        <button bindtap="tapShanghaipai">伤害牌</button>
+        <button bindtap="tapJingong">矜功</button>
       </view>
       <view class="function-group-content">
-        <button bindtap="tapLangxi">点虎</button>
-        <button bindtap="tapXionghuo">先辅</button>
-        <button bindtap="tapJuexiang">闭境</button>
-        <button bindtap="tapJuexiang">设伏</button>
+        <button bindtap="tapCaoyi">曹裔</button>
+        <button bindtap="tapShanli">擅立</button>
       </view>
     </view>
-  <button bindtap="tapYanjiao">张昌蒲严教</button>
 </view>
