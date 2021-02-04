@@ -1,52 +1,49 @@
 /**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 200px;
-}
-
-.function-box {
-  background-color: white;
-  width: 750rpx;
-  margin: 20rpx;
-}
-
+/**app.wxss**/
+.container {
+  height: 100%;
+  /* align-items: center; */
+  padding: 10rpx 10rpx 10rpx 10rpx;
+  /* box-sizing: border-box; */
+  /* display:block */
+} 
 
 .function-groups {
-  border: 10px;
+  border: 20px;
   display: flex;
-  flex-direction: column;
   border-bottom: #eee solid 1px;
   width: 750rpx;
   height: 160rpx;
-  margin-top: 0rpx;
+  margin-top: 10rpx;
   margin-bottom: 40rpx;
-}
-/* 
-.function-group-content {
-  border: 10px;
+  margin: 0 auto;
+} 
+
+.xushao-opts-container {
   display: flex;
-  flex-direction: row;
-  margin: 40rpx;
+  border-bottom: #eee solid 1px;
+  justify-content: flex-start;
 }
 
-.function-button {
+.function-btn {
+  /* padding: 20rpx; */
   border: 10px;
-  display: flex;
-  flex-direction: row;
-} */
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.function-title {
+  /* padding: 20rpx; */
+  border: 20px;
+  margin-top: 50rpx;
+  margin-bottom: 30rpx;
+}
+
+.circle{
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border: 0 solid #ffffff;
+  border-radius: 500px;
+  box-shadow: 4px 1px 1px #cccccc;
+}

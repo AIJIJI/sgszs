@@ -1,26 +1,89 @@
-//index.js
-//获取应用实例
 const app = getApp()
 const util = require('../../utils/util.js')
 
+const XUSHAO_SKILL_POOLS = {
+  "Shoushang": [
+    '贲育', '称象', '筹策', '恩怨', '反馈', '放逐', '归心', '恢拓', 
+    '鸡肋', '吉境', '奸雄', '刚烈', '遗计', '节命',
+    '忘隙', '邀名', '御策', '智迟', '智愚', 
+  ],
+  "Chupai": [
+    '安恤', '安国', '督粮', '盗书', '缔盟', '反间', '奋钺', // ADF
+    '国色', '攻心', '甘露', '弓骑', '过论', // G
+    '怀异', '结姻', '机捷', '荐言', '酒池', '狂斧', // HJK
+    '乱击', '掠命', '立牧', '凌人', '离间', // L
+    '敏思', '密诏', '蛮嗣', '灭计', '明策', '明鉴',  // M
+    '奇袭', '青囊', '强袭', '去疾', '奇策', '驱虎', '枪舞',// Q
+    '仁德', '闪袭', '颂词', '慎行', '散谣', '贪狈', '天义', // RST
+    '怃戎', '雪恨', '陷阵', '严教', '义绝', '制衡', '谮毁', '资援', // WXYZ
+  ],
+  'Jieshu': [
+    '伏间', '闭月', '据守', '罪论', '镇骨', '秘计', '直言', '绝策', '秉壹', 
+    '惠民', '郡兵', '默识', '诱敌', '屯江', '精策', '困奋', '举荐'
+  ]
+}
+
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    xushao: {
+      pool: JSON.parse(JSON.stringify(XUSHAO_SKILL_POOLS)),
+      options: [],
+      showModal: false,
+      currentPoolIndex: '',
+    },
+    SKILLS: require('../skill/skill.js').SKILLS
   },
   //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+  onShareAppMessage (){
+    return {
+      title: "三国杀面杀助手"
+    }
   },
-  tapLangxi: function () {
+  tapLangxi: function (event) {
     wx.showModal({
       icon: 'none',
       content: String(util.getRandomInt(0, 2)),
       showCancel: false
+    })
+  },
+
+  tapXushaoInfo: function(event) {
+    let skill = event.target.dataset.option
+    wx.showModal({
+      icon: 'none',
+      content: this.data.SKILLS[skill].xushaoText,
+      showCancel: false
+    })
+  },
+
+  tapxushaoReset: function(event) {
+    this.setData({['xushao.pool']: JSON.parse(JSON.stringify(XUSHAO_SKILL_POOLS))})
+  },
+
+  tapxushaoChoose(event) {
+    let poolIndex = this.data.xushao.currentPoolIndex
+    let choice = event.target.dataset.option
+    this.setData({
+      ['xushao.pool.'+poolIndex]: this.data.xushao.pool[poolIndex].filter((x) => x !== choice),
+      ['xushao.showModal']: false
+    })
+    console.log(this.data.xushao.pool)
+  },
+  tapxushaoActive: function(event) {
+    let poolname = event.target.dataset.poolname
+    let pool = this.data.xushao.pool[poolname]
+    let c1 = pool.splice(Math.random() * (pool.length - 1), 1)[0]
+    let c2 = pool.splice(Math.random() * (pool.length - 1), 1)[0]
+    let c3 = pool.splice(Math.random() * (pool.length - 1), 1)[0]
+    pool.push(c1)
+    pool.push(c2)
+    pool.push(c3)
+    this.setData({
+      ['xushao.showModal']: true,
+      ['xushao.currentPoolIndex']: poolname,
+      ['xushao.options']: [c1, c2, c3]
     })
   },
   tapGeweishu: function () {
@@ -30,6 +93,7 @@ Page({
       showCancel: false
     })
   },
+
   tapXionghuo: function () {
     const choice = util.getRandomInt(1, 3);
     let msg;
@@ -50,6 +114,7 @@ Page({
       showCancel: false
     })
   },
+
   tapShanghaipai: function () {
     const choice = util.getRandomInt(1, 5);
     let msg;
@@ -76,6 +141,7 @@ Page({
       showCancel: false
     })
   },
+
   tapJingong: function () {
     const choice = util.getRandomInt(1, 2);
     let jinnang = [
@@ -171,23 +237,21 @@ Page({
   tapShanli: function () {
     const choice = util.getRandomInt(1, 2);
     let jineng = [
-      '曹操护驾',
-      '曹丕颂威',
-      '曹叡兴衰',
-      '刘备激将',
-      '刘禅若愚',
-      '刘谌勤王',
-      '孙权救援',
-      '孙策制霸',
-      '孙休诏缚',
-      '孙皓归命',
-      '孙亮立军',
-      '袁绍血裔',
-      '董卓暴虐',
-      '张角黄天',
-      '袁术伪帝',
-      '司马师睿略',
-      '司马昭成务',
+      '曹操·护驾',
+      '曹丕·颂威',
+      '曹叡·兴衰',
+      '刘备·激将',
+      '刘禅·若愚',
+      '刘谌·勤王',
+      '孙权·救援',
+      '孙策·制霸',
+      '孙休·诏缚',
+      '孙皓·归命',
+      '孙亮·立军',
+      '袁绍·血裔',
+      '董卓·暴虐',
+      '张角·黄天',
+      '袁术·伪帝',
     ]
     let jn1 = jineng.splice(Math.random() * (jineng.length - 1), 1).pop();
     let jn2 = jineng.splice(Math.random() * (jineng.length - 1), 1).pop();
