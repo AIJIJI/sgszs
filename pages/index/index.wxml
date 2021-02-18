@@ -1,53 +1,157 @@
 <view class="container">
-  <view class="function-groups">
-    <button class="function-btn" bindtap="tapLangxi">狼袭</button>
-    <button class="function-btn" bindtap="tapXionghuo">凶镬</button>
-    <button class="function-btn" bindtap="tapShanli">擅立</button>
-    <button class="function-btn" bindtap="tapCaoyi">曹裔</button>
-  </view>
-  <view class="function-groups">
-    <view class="function-title">许昭</view>
-    <button class="function-btn" data-poolname="Chupai" bindtap="tapxushaoActive">出牌</button>
-    <button class="function-btn" data-poolname="Shoushang" bindtap="tapxushaoActive">受伤</button>
-    <button class="function-btn" data-poolname="Jieshu" bindtap="tapxushaoActive">结束</button>
-    <button class="function-btn" bindtap="tapxushaoReset">重置</button>
-  </view>
-  <view class="function-groups">
-    <view class="function-title">王允</view>
-    <button class="function-btn" bindtap="tapShanghaipai">伤害牌</button>
-    <button class="function-btn" bindtap="tapJingong">矜功</button>
-  </view>
-  <view class="function-group-content">
-      
-        <button class="function-btn" bindtap="tapGeweishu">个位数</button>
-  </view>
-
-</view>
-<modal wx:if="{{xushao.showModal}}" no-cancel="true" confirm-text="">
-  <block 
-    wx:for="{{xushao.options}}"
-    wx:for-index="index"
-    wx:for-item="item"
-  >
-    <view
-      style="display:flex; justify-content: flex-start;"
-    >
-      <button
-        style="width:1000px; heigt: 30px"
-        data-option="{{item}}"
-        bindtap="tapxushaoChoose"
-      >
-        {{item}}  
-      </button>
-        <button
-          wx:if="{{SKILLS[item].xushaoText}}"
-          class="circle"
-          data-option="{{item}}"
-          bindtap="tapXushaoInfo"
-        >
-          ?
+  <div class="button-row">
+    <div class="btn-wrapper">
+      <button class="btn-skill" data-poolname="Chupai" bindtap="tapxushaoActive">
+          <image
+            class="icon"
+            src="../../images/xushao.jpg"
+            mode="aspectFit"
+            alt="出牌阶段"
+          />
+          <span class="skill-display">出牌阶段</span>
         </button>
-      </view>
-    </block>
-  选择技能并移出技能池
-</modal>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" data-poolname="Shoushang" bindtap="tapxushaoActive">
+          <image
+            class="icon"
+            src="../../images/xushao.jpg"
+            mode="aspectFit"
+            alt="受到伤害后"
+          />
+          <span class="skill-display">受到伤害</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" data-poolname="Jieshu" bindtap="tapxushaoActive">
+          <image
+            class="icon"
+            src="../../images/xushao.jpg"
+            mode="aspectFit"
+            alt="结束阶段"
+          />
+          <span class="skill-display">结束阶段</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapxushaoReset">
+          <image
+            class="icon"
+            src="../../images/xushao.jpg"
+            mode="aspectFit"
+            alt="出牌阶段"
+          />
+          <span class="skill-display">重置评荐</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapJingong">
+          <image
+            class="icon"
+            src="../../images/wangyun.jpg"
+            mode="aspectFit"
+            alt="连计"
+          />
+          <span class="skill-display">连计</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapJingong">
+          <image
+            class="icon"
+            src="../../images/wangyun.jpg"
+            mode="aspectFit"
+            alt="矜功"
+          />
+          <span class="skill-display">矜功</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapLangxi">
+          <image
+            class="icon"
+            src="../../images/lijue.jpg"
+            mode="aspectFit"
+            alt="狼袭"
+          />
+          <span class="skill-display">狼袭</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapXionghuo">
+          <image
+            class="icon"
+            src="../../images/xurong.jpg"
+            mode="aspectFit"
+            alt="凶镬"
+          />
+          <span class="skill-display">凶镬</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapShanli">
+          <image
+            class="icon"
+            src="../../images/simashi.jpg"
+            mode="aspectFit"
+            alt="擅立"
+          />
+          <span class="skill-display">擅立</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapGeweishu">
+          <image
+            class="icon"
+            src="../../images/zhangchunhua.jpg"
+            mode="aspectFit"
+            alt="清冷"
+          />
+          <span class="skill-display">清冷</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapCaoyi">
+          <image
+            class="icon"
+            src="../../images/caocao.jpg"
+            mode="aspectFit"
+            alt="清冷"
+          />
+          <span class="skill-display">曹裔</span>
+        </button>
+    </div>
+  </div>
+</view>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <modal wx:if="{{xushao.showModal}}" no-cancel="true" confirm-text="">
+      <block 
+        wx:for="{{xushao.options}}"
+        wx:for-index="index"
+        wx:for-item="item"
+      >
+        <view
+          style="display:flex; justify-content: flex-start;"
+        >
+          <button
+            style="width:1000px; heigt: 30px"
+            data-option="{{item}}"
+            bindtap="tapxushaoChoose"
+          >
+            {{item}}  
+          </button>
+            <button
+              wx:if="{{SKILLS[item].xushaoText}}"
+              class="circle"
+              data-option="{{item}}"
+              bindtap="tapXushaoInfo"
+            >
+              ?
+            </button>
+          </view>
+        </block>
+      选择技能并移出技能池
+    </modal>
+  </div>
+</div>

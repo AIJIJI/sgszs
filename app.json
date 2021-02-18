@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/xushao/xushao"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -11,4 +12,3 @@
   },
   "sitemapLocation": "sitemap.json"
 }
-

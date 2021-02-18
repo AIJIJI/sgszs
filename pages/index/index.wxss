@@ -1,35 +1,36 @@
-/**index.wxss**/
-/**app.wxss**/
+page, .container, .button-row, .btn-wrapper, .btn-skill {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; 
+}
+
+page {
+  background: linear-gradient(
+    180deg
+    ,#001427 0,#002142 30%);
+}
+
 .container {
   height: 100%;
   /* align-items: center; */
-  padding: 10rpx 10rpx 10rpx 10rpx;
-  /* box-sizing: border-box; */
-  /* display:block */
+  padding-right: 10px;
+  padding-left: 10px;
 } 
 
-.function-groups {
-  border: 20px;
-  display: flex;
-  border-bottom: #eee solid 1px;
-  width: 750rpx;
-  height: 160rpx;
-  margin-top: 10rpx;
-  margin-bottom: 40rpx;
-  margin: 0 auto;
-} 
-
-.xushao-opts-container {
-  display: flex;
-  border-bottom: #eee solid 1px;
-  justify-content: flex-start;
-}
-
-.function-btn {
+.btn-skill {
+  background: #a9bcc3;
   /* padding: 20rpx; */
-  border: 10px;
+  border: 0px;
   margin-top: 30rpx;
   margin-bottom: 30rpx;
+  padding: 0;
+}
+
+.btn-skill > .icon {
+  /* border-radius: 100px; */
+  position: absolute;
+  height: 45px;
+  width: 45px;
 }
 
 .function-title {
@@ -39,11 +40,59 @@
   margin-bottom: 30rpx;
 }
 
-.circle{
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  border: 0 solid #ffffff;
-  border-radius: 500px;
-  box-shadow: 4px 1px 1px #cccccc;
+
+
+.button-row .btn-wrapper .btn-skill {
+  cursor: pointer;
+  display: flex;
+  position: relative;
+  height: 45px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 3px;
+  outline: #385979 solid 3px;
+  background: #a9bcc3;
+  color: #252b2d;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 18px;
+  overflow: hidden;
+  float: left;
+  z-index: 0;
+  border-radius: 0;
 }
+
+
+.button-row {
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+
+.btn-wrapper button::after{
+  border: none;
+}
+
+.button-row .btn-wrapper {
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-bottom: 0px;
+  width: 50%;
+
+}
+
+.btn-skill >.skill-display {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 0px;
+  padding-left: 48px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: inherit;
+  text-align: inherit;
+}
+
