@@ -136,17 +136,25 @@ page {
   background-color: #001427;
 }
 
+.shefu-modal .modal-content {
+  max-height: 500px;
+  margin: 20px auto;
+}
+
 .modal-content .modal-body {
   padding: 16px;
   color: #dedede;
 }
 
 .modal-tail {
+  display: flex;
   padding: 20px;
 }
 
 .modal-tail > button {
-  padding: 0px;
+
+  padding: 0px 20px;
+  margin: 0px 5px;
   width: 80px;
   height: 50px;
   background-color: #294667;
@@ -155,16 +163,35 @@ page {
   /* float: right; */
 }
 
+
+
 .btn-unchecked {
-  background-color: #082642;
-  border: 3px solid #28425c; 
+  /* background-color: #082642; */
+  border: 3px solid #28425c;  
+  /* background-color: #125da3; */
+  color: white;
+  background-color: #0d2e4c;
+  /* border: 3px solid #131f2b;  */
 }
 
 .btn-checked {
+  /* background-color: #0d2e4c;
+  border: 3px solid #385979;  */
   background-color: #0d2e4c;
-  border: 3px solid #385979; 
+  border: 3px solid #f8e802; 
   color: white;
 }
+
+.shefu-modal button {
+  /* padding: 0 5px; */
+  /* height: 50px; */
+  width: auto;
+}
+
+.shefu-modal .btn-unchecked, .shefu-modal .btn-checked{
+  border-width: 1px; 
+}
+
 
 .xushao-option {
   width: 100%;
@@ -188,4 +215,18 @@ page {
 
 .xushao-skill-info {
   font-size: 0.8em;
+}
+
+.pay-btn-content {
+  width: 100%;
+  position: fixed;
+  bottom: 30rpx;
+}
+
+.pay-btn {
+  margin-top: 30rpx;
+  width: 200rpx;
+  background: #be0505;
+  color: rgb(236, 223, 223);
+  border-radius: 70rpx;
 }

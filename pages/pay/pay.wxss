@@ -1,0 +1,23 @@
+/* pages/pay/pay.wxss */
+.container {
+  display: flex;
+  flex-direction:column
+}
+
+text {
+  margin: 20px;
+}
+
+.pay-btn-content {
+  width: 100%;
+  position: fixed;
+  bottom: 30rpx;
+}
+
+.pay-btn {
+  margin-top: 30rpx;
+  width: 250rpx;
+  background: #be0505;
+  color: rgb(236, 223, 223);
+  border-radius: 70rpx;
+}

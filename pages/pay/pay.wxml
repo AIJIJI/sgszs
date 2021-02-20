@@ -1,0 +1,13 @@
+<!--pages/pay/pay.wxml-->
+<div class='container'>
+<text>呜呜个体号没法打赏，求爸爸们截图微信扫一下下</text>
+
+<image src="/images/paycode.jpg" mode="aspectFit" />
+
+
+  <div class='pay-btn-content'>
+    <button class='pay-btn' bindtap="tapFriend">
+      加个好友
+    </button>
+  </div>
+</div>

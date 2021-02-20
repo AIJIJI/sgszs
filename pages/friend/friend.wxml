@@ -1,0 +1,6 @@
+<!--pages/pay/pay.wxml-->
+<div class='container'>
+<text>呜呜一样要截图扫一扫来添加好友友</text>
+
+<image src="/images/me.jpg" mode="aspectFit" />
+</div>

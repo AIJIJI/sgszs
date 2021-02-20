@@ -1,6 +1,13 @@
 const app = getApp()
 const util = require('../../utils/util.js')
 const xushaoSkill = require('../skill/skill.js')
+const SHEFU_CHECHBOX_INITAIL = {
+  '杀':0, '闪':0, '桃':0, '酒':0, '兵':0,
+  '乐':0, '顺':0, '拆':0, '南':0, '万':0,
+  '无懈':0, '桃园': 0, '五谷':0,
+  '无中':0, '借刀': 0, '铁索':0,
+  '决斗':0, '火攻': 0, '闪电': 0,
+}
 
 Page({
   data: {
@@ -18,6 +25,10 @@ Page({
       numberCheckBox: [1, 1, 1, 1, 1, 1, 0, 0],
       showModal: false,
     },
+    chengyu: {
+      cardCheckBox: Object.assign({}, SHEFU_CHECHBOX_INITAIL),
+      showModal: false,
+    }
 
   },
   //事件处理函数1
@@ -25,6 +36,14 @@ Page({
     return {
       title: "三国杀面杀助手"
     }
+  },
+
+  tapPay: function () {
+    wx.navigateTo({url: '/pages/pay/pay'})
+  },
+
+  tapShefu: function (event) {
+    this.setData({['chengyu.showModal']: true})
   },
 
   tapFujian: function (event) {
@@ -37,10 +56,38 @@ Page({
 
   tapFujianTarget: function (event) {
     let index = event.target.dataset.index
-    
     this.setData({[`caoying.numberCheckBox[${index}]`]: 1 - this.data.caoying.numberCheckBox[index]})
   },
   
+  tapShefuCard: function (event) {
+    let cardName = event.target.dataset.cardname
+    let currentFlag = this.data.chengyu.cardCheckBox[cardName]
+    let audio = wx.createInnerAudioContext()
+    let src = ''
+    if (currentFlag == 0) {
+      src = 'audio/fadongshefu.mp3'
+    } else {
+      src = `audio/Cancel_${cardName}.mp3`
+    }
+    audio.src = src
+    audio.play()
+    this.setData({
+      [`chengyu.cardCheckBox.${cardName}`]:
+        1 - this.data.chengyu.cardCheckBox[cardName],
+      "chengyu.showModal": false,
+      })
+  },
+
+  tapShefuReset: function (event) {
+    this.setData({[`chengyu.cardCheckBox`]: Object.assign({}, SHEFU_CHECHBOX_INITAIL)})
+  },
+
+  tapShefuClose: function (event) {
+    this.setData({
+      "chengyu.showModal": false,
+      })
+  },
+
   tapFujianRoll: function (event) {
     let res = "0"
     let that = this
