@@ -1,4 +1,7 @@
-page, .container, .button-row, .btn-wrapper, .btn-skill {
+page, .container, .button-row, .btn-wrapper, .btn-skill,
+.check-box, button, .modal, .modal-content, .modal-body, 
+.btn-checked, .btn-unchecked, .check-box, .check-box > button,
+.modal-tail, .xushao-option{
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; 
@@ -33,15 +36,6 @@ page {
   width: 45px;
 }
 
-.function-title {
-  /* padding: 20rpx; */
-  border: 20px;
-  margin-top: 50rpx;
-  margin-bottom: 30rpx;
-}
-
-
-
 .button-row .btn-wrapper .btn-skill {
   cursor: pointer;
   display: flex;
@@ -70,7 +64,8 @@ page {
 }
 
 
-.btn-wrapper button::after{
+.btn-wrapper button::after,
+.xushao-option button::after{
   border: none;
 }
 
@@ -96,3 +91,101 @@ page {
   text-align: inherit;
 }
 
+
+.check-box {
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.check-box button {
+  margin: 10px 1px;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-bottom: 0px;
+  width: 22%;
+}
+
+.modal {
+  pointer-events: none;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  outline: 0;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 250px;
+  max-height: 300px;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: .3rem;
+  outline: 0;
+  margin: 30% auto;
+  align-items:center;
+  background-color: #001427;
+}
+
+.modal-content .modal-body {
+  padding: 16px;
+  color: #dedede;
+}
+
+.modal-tail {
+  padding: 20px;
+}
+
+.modal-tail > button {
+  padding: 0px;
+  width: 80px;
+  height: 50px;
+  background-color: #294667;
+  border: 1px solid rgba(255,255,255,.08);
+  color: white;
+  /* float: right; */
+}
+
+.btn-unchecked {
+  background-color: #082642;
+  border: 3px solid #28425c; 
+}
+
+.btn-checked {
+  background-color: #0d2e4c;
+  border: 3px solid #385979; 
+  color: white;
+}
+
+.xushao-option {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 0px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: inherit;
+  text-align: inherit;
+  margin: 5px 0px;
+}
+
+.xushao-skill-btn {
+  background: #a9bcc3;
+  border: 3px solid #385979; 
+  width: 80%;
+}
+
+.xushao-skill-info {
+  font-size: 0.8em;
+}

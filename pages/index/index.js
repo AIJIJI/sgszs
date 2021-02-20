@@ -1,46 +1,65 @@
 const app = getApp()
 const util = require('../../utils/util.js')
-
-const XUSHAO_SKILL_POOLS = {
-  "Shoushang": [
-    '贲育', '称象', '筹策', '恩怨', '反馈', '放逐', '归心', '恢拓', 
-    '鸡肋', '吉境', '奸雄', '刚烈', '遗计', '节命',
-    '忘隙', '邀名', '御策', '智迟', '智愚', 
-  ],
-  "Chupai": [
-    '安恤', '安国', '督粮', '盗书', '缔盟', '定判', '反间', '奋钺', '奋迅', // ADF
-    '国色', '攻心', '甘露', '弓骑', '过论', // G
-    '怀异', '结姻', '机捷', '荐言', '酒池', '狂斧', '苦肉',// HJK
-    '乱击', '掠命', '立牧', '凌人', '离间', '连环',// L
-    '敏思', '密诏', '蛮嗣', '灭计', '明策', '明鉴',  // M
-    '奇袭', '青囊', '强袭', '去疾', '奇策', '驱虎', '枪舞',// Q
-    '仁德', '闪袭', '颂词', '慎行', '散谣', '贪狈', '天义', // RST
-    '怃戎', '雪恨', '陷阵', '严教', '义绝', '制衡', '谮毁', '资援', // WXYZ
-  ],
-  'Jieshu': [
-    '伏间', '闭月', '据守', '罪论', '镇骨', '秘计', '直言', '绝策', '秉壹', 
-    '惠民', '郡兵', '默识', '诱敌', '屯江', '精策', '困奋', '举荐'
-  ]
-}
+const xushaoSkill = require('../skill/skill.js')
 
 Page({
   data: {
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     xushao: {
-      pool: JSON.parse(JSON.stringify(XUSHAO_SKILL_POOLS)),
+      pool: JSON.parse(JSON.stringify(xushaoSkill.XUSHAO_SKILL_POOLS)),
       options: [],
       showModal: false,
       currentPoolIndex: '',
+      TEXTS: xushaoSkill.XUSHAO_SKILL_TEXTS,
+      OWNERS: xushaoSkill.XUSHAO_SKILL_OWNERS
     },
-    SKILLS: require('../skill/skill.js').SKILLS
+    caoying: {
+      numberCheckBox: [1, 1, 1, 1, 1, 1, 0, 0],
+      showModal: false,
+    },
+
   },
-  //事件处理函数
-  onShareAppMessage (){
+  //事件处理函数1
+  onShareAppMessa1ge (){
     return {
       title: "三国杀面杀助手"
     }
   },
+
+  tapFujian: function (event) {
+    this.setData({['caoying.showModal']: true})
+  },
+
+  closeFujian: function (event) {
+    this.setData({['caoying.showModal']: false})
+  },
+
+  tapFujianTarget: function (event) {
+    let index = event.target.dataset.index
+    
+    this.setData({[`caoying.numberCheckBox[${index}]`]: 1 - this.data.caoying.numberCheckBox[index]})
+  },
+  
+  tapFujianRoll: function (event) {
+    let res = "0"
+    let that = this
+    let lst = this.data.caoying.numberCheckBox.map(
+      (value, index) => value? index+1: 0).filter(
+      value => value 
+    )
+    if (lst.length) {
+      res = String(lst[Math.floor((Math.random()*lst.length))])
+    }
+    wx.showModal({
+      content: res,
+      showCancel: false,
+      success (res) {
+        that.setData({'caoying.showModal': false})
+      }
+    })
+  },
+
   tapLangxi: function (event) {
     wx.showModal({
       icon: 'none',
@@ -53,13 +72,15 @@ Page({
     let skill = event.target.dataset.option
     wx.showModal({
       icon: 'none',
-      content: this.data.SKILLS[skill].xushaoText,
+      content: xushaoSkill.XUSHAO_SKILL_TEXTS[skill],
       showCancel: false
     })
   },
 
   tapxushaoReset: function(event) {
-    this.setData({['xushao.pool']: JSON.parse(JSON.stringify(XUSHAO_SKILL_POOLS))})
+    this.setData({
+      ['xushao.pool']:
+        JSON.parse(JSON.stringify(xushaoSkill.XUSHAO_SKILL_POOLS))})
     wx.showModal({content:"已重置", showCancel: false})
   },
 
@@ -70,7 +91,6 @@ Page({
       ['xushao.pool.'+poolIndex]: this.data.xushao.pool[poolIndex].filter((x) => x !== choice),
       ['xushao.showModal']: false
     })
-    console.log(this.data.xushao.pool)
   },
   tapxushaoActive: function(event) {
     let poolname = event.target.dataset.poolname
@@ -100,10 +120,10 @@ Page({
     let msg;
     switch(choice){
       case 1:
-        msg = '受到1点火焰伤害且本回合不能对你使用【杀】'
+        msg = '其受到1点火焰伤害且本回合不能对你使用杀'
         break
       case 2:
-        msg = '失去1点体力且本回合手牌上限-1'
+        msg = '其失去1点体力且本回合手牌上限-1'
         break
       case 3:
         msg = '你随机获得其一张手牌和一张装备区里的牌。'
@@ -151,7 +171,6 @@ Page({
       '南蛮入侵',
       '火攻',
       '五谷丰登',
-      '调虎离山',
       '过河拆桥',
       '借刀杀人',
       '决斗',

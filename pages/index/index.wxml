@@ -1,6 +1,6 @@
 <view class="container">
-  <div class="button-row">
-    <div class="btn-wrapper">
+  <view class="button-row">
+    <view class="btn-wrapper">
       <button class="btn-skill" data-poolname="Chupai" bindtap="tapxushaoActive">
           <image
             class="icon"
@@ -10,7 +10,7 @@
           />
           <span class="skill-display">出牌阶段</span>
         </button>
-    </div>
+    </view>
     <div class="btn-wrapper">
       <button class="btn-skill" data-poolname="Shoushang" bindtap="tapxushaoActive">
           <image
@@ -45,7 +45,7 @@
         </button>
     </div>
     <div class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapJingong">
+      <button class="btn-skill" bindtap="tapShanghaipai">
           <image
             class="icon"
             src="../../images/wangyun.jpg"
@@ -89,6 +89,17 @@
         </button>
     </div>
     <div class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapFujian">
+          <image
+            class="icon"
+            src="../../images/caoying.jpg"
+            mode="aspectFit"
+            alt="伏间"
+          />
+          <span class="skill-display">伏间</span>
+        </button>
+    </div>
+    <div class="btn-wrapper">
       <button class="btn-skill" bindtap="tapShanli">
           <image
             class="icon"
@@ -121,37 +132,73 @@
           <span class="skill-display">曹裔</span>
         </button>
     </div>
-  </div>
+  </view>
 </view>
-<div class="modal-dialog">
+
+<modal wx:if="{{xushao.showModal}}" no-cancel="true" confirm-text="">
+  <h1>选择技能并移出技能池</h1>
+  <div
+    class="xushao-option"
+    wx:for="{{xushao.options}}"
+    wx:for-index="index"
+    wx:key="index"
+    wx:for-item="item"
+  >
+    <button class="xushao-skill-btn"
+      data-option="{{item}}"
+      bindtap="tapxushaoChoose"
+    >
+      <block wx:if="{{xushao.OWNERS[item]}}">
+        {{"(" + xushao.OWNERS[item] + ")"}}
+      </block>
+      {{item}}
+    </button>
+    <p
+      class="xushao-skill-info"
+      wx:if="{{xushao.TEXTS[item]}}"
+      data-option="{{item}}"
+      bindtap="tapXushaoInfo"
+    >
+      {{xushao.TEXTS[item]}}
+    </p>
+  </div>
+
+</modal>
+
+<div class="modal" wx:if="{{caoying.showModal}}">
   <div class="modal-content">
-    <modal wx:if="{{xushao.showModal}}" no-cancel="true" confirm-text="">
-      <block 
-        wx:for="{{xushao.options}}"
-        wx:for-index="index"
-        wx:for-item="item"
-      >
-        <view
-          style="display:flex; justify-content: flex-start;"
+    <div class="modal-body">
+      <div class="modal-title">
+        高亮所有可能目标
+      </div>
+      <div class="check-box">
+        <block
+          wx:for="{{caoying.numberCheckBox}}"
+          wx:for-index="index"
+          wx:key="index"
+          wx:for-item="item"
         >
           <button
-            style="width:1000px; heigt: 30px"
-            data-option="{{item}}"
-            bindtap="tapxushaoChoose"
+            data-index="{{index}}"
+            wx:if="{{item}}"
+            class="btn-checked"
+            bindtap="tapFujianTarget"
           >
-            {{item}}  
+            {{index+1}}
           </button>
-            <button
-              wx:if="{{SKILLS[item].xushaoText}}"
-              class="circle"
-              data-option="{{item}}"
-              bindtap="tapXushaoInfo"
-            >
-              ?
-            </button>
-          </view>
+          <button 
+            wx:else class="btn-unchecked" data-index="{{index}}"
+            bindtap="tapFujianTarget"
+          >
+            {{index+1}}
+          </button>
         </block>
-      选择技能并移出技能池
-    </modal>
+      </div>
+      <div class="modal-tail">
+        <button bindtap="tapFujianRoll">
+          随机
+        </button>
+      </div>
+    </div>
   </div>
 </div>
