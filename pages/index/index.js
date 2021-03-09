@@ -1,16 +1,15 @@
 const app = getApp()
-const util = require('../../utils/util.js')
-const xushaoSkill = require('../skill/skill.js')
-const SHEFU_CHECHBOX_INITAIL = {
-  '杀':0, '闪':0, '桃':0, '酒':0, '兵':0,
-  '乐':0, '顺':0, '拆':0, '南':0, '万':0,
-  '无懈':0, '桃园': 0, '五谷':0,
-  '无中':0, '借刀': 0, '铁索':0,
-  '决斗':0, '火攻': 0, '闪电': 0,
-}
+const util = app.require('utils/util.js')
+const xushaoSkill = app.require('constants/skill.js')
+const CARDS = app.require('constants/card').CARDS
+
+var SIPlugin = requirePlugin("WechatSI")
 
 Page({
   data: {
+    yongjianEnabled: false,
+    DIYEnabled: false,
+    currentNav: '魏',
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     xushao: {
@@ -26,51 +25,125 @@ Page({
       showModal: false,
     },
     chengyu: {
-      cardCheckBox: Object.assign({}, SHEFU_CHECHBOX_INITAIL),
+      cardCheckBox: undefined,
       showModal: false,
+      displayCards: [],
+    },
+    caojie: {
+      cardCheckBox: undefined,
+      showModal: false,
+      displayCards: [],
     }
-
   },
-  //事件处理函数1
-  onShareAppMessa1ge (){
-    return {
-      title: "三国杀面杀助手"
+
+  /* ⬇⬇⬇ 工具函数 ⬇⬇⬇ */
+  /* 初始化设伏, 重新计算要展示的牌，清空被选中的牌 */
+  resetShefu() {
+    let displayCards = []
+    displayCards.push.apply(
+      displayCards,
+      Array.from(CARDS)
+      .filter(([key, value]) => value.package == '军争')
+    )
+
+    if (this.data.yongjianEnabled) {
+      displayCards.push.apply(
+        displayCards,
+        Array.from(CARDS).filter(([key, value]) =>
+          value.package == '用间' && value.name !== '毒')
+        )
     }
+    if (this.data.DIYEnabled) {
+      displayCards.push.apply(
+        displayCards,
+        Array.from(CARDS).filter(([key, value]) => value.isMine)
+      )
+    }
+    displayCards = displayCards.map(([key, value]) => key)
+    
+    let newbox = Array.from(CARDS)
+      .filter(([key, value]) => displayCards.includes(key))
+      .map(([key, value]) => [key, 0])
+
+    this.setData({
+      ['chengyu.cardCheckBox']:
+      Object.fromEntries(newbox)
+    })
   },
 
-  tapPay: function () {
-    wx.navigateTo({url: '/pages/pay/pay'})
-  },
+    /* 初始化设伏, 重新计算要展示的牌，清空被选中的牌 */
+    resetShouxi() {
+      let displayCards = []
+      displayCards.push.apply(
+        displayCards,
+        Array.from(CARDS)
+        .filter(([key, value]) => value.package == '军争')
+      )
+  
+      if (this.data.yongjianEnabled) {
+        displayCards.push.apply(
+          displayCards,
+          Array.from(CARDS).filter(([key, value]) =>
+            value.package == '用间' && value.name !== '毒')
+          )
+      }
+      if (this.data.DIYEnabled) {
+        displayCards.push.apply(
+          displayCards,
+          Array.from(CARDS).filter(([key, value]) => value.isMine)
+        )
+      }
+      displayCards = displayCards.map(([key, value]) => key)
+      
+      let newbox = Array.from(CARDS)
+        .filter(([key, value]) => displayCards.includes(key))
+        .map(([key, value]) => [key, 0])
+  
+      this.setData({
+        ['chengyu.cardCheckBox']:
+        Object.fromEntries(newbox)
+      })
+    },
+  /* ⬆⬆⬆ 工具函数 ⬆⬆⬆ */
 
+
+  /* ⬇⬇⬇ 生命周期函数 ⬇⬇⬇ */
+  /* 初始化数据 */
+  onReady() {
+    this.setData({CARDS: Object.fromEntries(CARDS)})
+    this.resetShefu()
+  },
+  /* ⬆⬆⬆ 生命周期函数 ⬆⬆⬆ */
+ 
+
+  /* ⬇⬇⬇ 技能事件监听 ⬇⬇⬇ */
+  /* ⬇ 设伏 ⬇ */
   tapShefu: function (event) {
     this.setData({['chengyu.showModal']: true})
   },
 
-  tapFujian: function (event) {
-    this.setData({['caoying.showModal']: true})
-  },
-
-  closeFujian: function (event) {
-    this.setData({['caoying.showModal']: false})
-  },
-
-  tapFujianTarget: function (event) {
-    let index = event.target.dataset.index
-    this.setData({[`caoying.numberCheckBox[${index}]`]: 1 - this.data.caoying.numberCheckBox[index]})
-  },
-  
   tapShefuCard: function (event) {
     let cardName = event.target.dataset.cardname
     let currentFlag = this.data.chengyu.cardCheckBox[cardName]
     let audio = wx.createInnerAudioContext()
-    let src = ''
+    let content = ''
     if (currentFlag == 0) {
-      src = 'audio/fadongshefu.mp3'
+      content = '发动设伏'
     } else {
-      src = `audio/Cancel_${cardName}.mp3`
+      content = `取消${cardName}`
     }
-    audio.src = src
-    audio.play()
+    SIPlugin.textToSpeech({
+      lang: "zh_CN",
+      tts: true,
+      content: content,
+      success: function(res) {
+        audio.src = res.filename
+        audio.play()
+      },
+      fail: function(res) {
+          console.log("fail tts", res)
+      }
+    })
     this.setData({
       [`chengyu.cardCheckBox.${cardName}`]:
         1 - this.data.chengyu.cardCheckBox[cardName],
@@ -79,13 +152,71 @@ Page({
   },
 
   tapShefuReset: function (event) {
-    this.setData({[`chengyu.cardCheckBox`]: Object.assign({}, SHEFU_CHECHBOX_INITAIL)})
+    this.resetShefu()
   },
 
   tapShefuClose: function (event) {
     this.setData({
       "chengyu.showModal": false,
       })
+  },
+
+  /* ⬇ 守玺 ⬇ */
+  tapShouxi: function (event) {
+    this.setData({['chengyu.showModal']: true})
+  },
+
+  tapShouxiCard: function (event) {
+    let cardName = event.target.dataset.cardname
+    let currentFlag = this.data.chengyu.cardCheckBox[cardName]
+    let audio = wx.createInnerAudioContext()
+    let content = ''
+    if (currentFlag == 0) {
+      content = '发动设伏'
+    } else {
+      content = `取消${cardName}`
+    }
+    SIPlugin.textToSpeech({
+      lang: "zh_CN",
+      tts: true,
+      content: content,
+      success: function(res) {
+        audio.src = res.filename
+        audio.play()
+      },
+      fail: function(res) {
+          console.log("fail tts", res)
+      }
+    })
+    this.setData({
+      [`chengyu.cardCheckBox.${cardName}`]:
+        1 - this.data.chengyu.cardCheckBox[cardName],
+      "chengyu.showModal": false,
+      })
+  },
+
+  tapShouxiReset: function (event) {
+    this.resetShefu()
+  },
+
+  tapShouxiClose: function (event) {
+    this.setData({
+      "chengyu.showModal": false,
+      })
+  },
+
+  /* ⬇ 伏间 ⬇ */
+  tapFujian: function (event) {
+    this.setData({['caoying.showModal']: true})
+  },
+ 
+  tapFujianTarget: function (event) {
+    let index = event.target.dataset.index
+    this.setData({[`caoying.numberCheckBox[${index}]`]: 1 - this.data.caoying.numberCheckBox[index]})
+  },
+  
+  closeFujian: function (event) {
+    this.setData({['caoying.showModal']: false})
   },
 
   tapFujianRoll: function (event) {
@@ -107,14 +238,31 @@ Page({
     })
   },
 
+  /* ⬇ 狼袭 ⬇ */
   tapLangxi: function (event) {
+    let res = String(util.getRandomInt(0, 2))
     wx.showModal({
       icon: 'none',
-      content: String(util.getRandomInt(0, 2)),
+      content: res,
       showCancel: false
+    })
+    let audio = wx.createInnerAudioContext()
+    let content = `狼袭${res}`
+    SIPlugin.textToSpeech({
+      lang: "zh_CN",
+      tts: true,
+      content: content,
+      success: function(res) {
+        audio.src = res.filename
+        audio.play()
+      },
+      fail: function(res) {
+        console.log("fail tts", res)
+      }
     })
   },
 
+  /* ⬇ 评荐 ⬇ */
   tapXushaoInfo: function(event) {
     let skill = event.target.dataset.option
     wx.showModal({
@@ -139,6 +287,7 @@ Page({
       ['xushao.showModal']: false
     })
   },
+
   tapxushaoActive: function(event) {
     let poolname = event.target.dataset.poolname
     let pool = this.data.xushao.pool[poolname]
@@ -154,14 +303,8 @@ Page({
       ['xushao.options']: [c1, c2, c3]
     })
   },
-  tapGeweishu: function () {
-    wx.showModal({
-      icon: 'none',
-      content: String(util.getRandomInt(0, 9)),
-      showCancel: false
-    })
-  },
 
+  /* ⬇ 凶镬 ⬇ */
   tapXionghuo: function () {
     const choice = util.getRandomInt(1, 3);
     let msg;
@@ -182,6 +325,72 @@ Page({
       showCancel: false
     })
   },
+
+  /* ⬇ 擅立 ⬇ */
+  tapShanli: function () {
+    const choice = util.getRandomInt(1, 2);
+    let jineng = [
+      '曹操·护驾',
+      '曹丕·颂威',
+      '曹叡·兴衰',
+      '刘备·激将',
+      '刘禅·若愚',
+      '刘谌·勤王',
+      '孙权·救援',
+      '孙策·制霸',
+      '孙休·诏缚',
+      '孙皓·归命',
+      '孙亮·立军',
+      '袁绍·血裔',
+      '董卓·暴虐',
+      '张角·黄天',
+      '袁术·伪帝',
+    ]
+    let jn1 = jineng.splice(Math.random() * (jineng.length - 1), 1).pop();
+    let jn2 = jineng.splice(Math.random() * (jineng.length - 1), 1).pop();
+    let jn3 = jineng.splice(Math.random() * (jineng.length - 1), 1).pop();
+    let msg = jn1 + '\n\n' + jn2 + '\n\n' + jn3
+    wx.showModal({
+      icon: 'none',
+      content: msg,
+      showCancel: false
+    })
+  },
+
+  /* ⬆⬆⬆ 技能事件监听 ⬆⬆⬆ */
+ 
+
+  switchYongjian(event) {
+    this.setData({yongjianEnabled: !this.data.yongjianEnabled})
+    this.resetShefu()
+    // this.setData({yongjianEnabled: true})
+  },
+  
+  switchDIY(event) {
+    this.setData({DIYEnabled: !this.data.DIYEnabled})
+    this.resetShefu()
+    // this.setData({yongjianEnabled: true})
+  },
+
+
+  onShareAppMessa1ge (){
+    return {
+      title: "三国杀面杀助手"
+    }
+  },
+
+  tapPay: function () {
+    wx.navigateTo({url: '/pages/pay/pay'})
+  },
+
+  tapGeweishu: function () {
+    wx.showModal({
+      icon: 'none',
+      content: String(util.getRandomInt(0, 9)),
+      showCancel: false
+    })
+  },
+
 
   tapShanghaipai: function () {
     const choice = util.getRandomInt(1, 5);
@@ -299,35 +508,7 @@ Page({
       showCancel: false
     })
   },
-  tapShanli: function () {
-    const choice = util.getRandomInt(1, 2);
-    let jineng = [
-      '曹操·护驾',
-      '曹丕·颂威',
-      '曹叡·兴衰',
-      '刘备·激将',
-      '刘禅·若愚',
-      '刘谌·勤王',
-      '孙权·救援',
-      '孙策·制霸',
-      '孙休·诏缚',
-      '孙皓·归命',
-      '孙亮·立军',
-      '袁绍·血裔',
-      '董卓·暴虐',
-      '张角·黄天',
-      '袁术·伪帝',
-    ]
-    let jn1 = jineng.splice(Math.random() * (jineng.length - 1), 1).pop();
-    let jn2 = jineng.splice(Math.random() * (jineng.length - 1), 1).pop();
-    let jn3 = jineng.splice(Math.random() * (jineng.length - 1), 1).pop();
-    let msg = jn1 + '\n\n' + jn2 + '\n\n' + jn3
-    wx.showModal({
-      icon: 'none',
-      content: msg,
-      showCancel: false
-    })
-  },
+
   tapJuexiang: function () {
     const choice = util.getRandomInt(1, 4);
     let msg;
@@ -351,11 +532,13 @@ Page({
       showCancel: false
     })
   },
+
   tapYanjiao: function () {
     wx.navigateTo({
       url: '../yanjiao/yanjiao',
     })
   },
+
   onLoad: function () {
     if (app.globalData.userInfo) {
       this.setData({
@@ -384,6 +567,12 @@ Page({
       })
     }
   },
+
+  tapNav: function(event) {
+    let index = event.target.dataset.index
+    this.setData({currentNav: index})
+  },
+
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo

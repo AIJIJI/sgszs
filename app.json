@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/xushao/xushao",
     "pages/pay/pay",
     "pages/friend/friend"
   ],
@@ -12,5 +11,11 @@
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "plugins": {
+    "WechatSI": { 
+      "version": "0.3.4",           
+      "provider": "wx069ba97219f66d99" 
+    }
+  }
 }

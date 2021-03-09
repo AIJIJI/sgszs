@@ -9,5 +9,6 @@ App({
   },
   globalData: {
     userInfo: null
-  }
+  },
+  require : function($uri){return require($uri)},
 })
