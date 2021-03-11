@@ -1,106 +1,131 @@
 <view class="container">
   <view class="button-row">
-    <view wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" data-poolname="Chupai" bindtap="tapxushaoActive">
-        <image
-          class="icon"
-          src="../../images/xushao.jpg"
-          mode="aspectFit"
-          alt="出牌阶段"
-        />
-        <span class="skill-display">出牌阶段</span>
-      </button>
-    </view>
-    <view wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" data-poolname="Shoushang" bindtap="tapxushaoActive">
-        <image
-          class="icon"
-          src="../../images/xushao.jpg"
-          mode="aspectFit"
-          alt="受到伤害后"
-        />
-        <span class="skill-display">受到伤害</span>
-      </button>
-    </view>
-    <view wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" data-poolname="Jieshu" bindtap="tapxushaoActive">
-        <image
-          class="icon"
-          src="../../images/xushao.jpg"
-          mode="aspectFit"
-          alt="结束阶段"
-        />
-        <span class="skill-display">结束阶段</span>
-      </button>
-    </view>
-    <view wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapxushaoReset">
-        <image
-          class="icon"
-          src="../../images/xushao.jpg"
-          mode="aspectFit"
-          alt="出牌阶段"
-        />
-        <span class="skill-display">重置评荐</span>
-      </button>
-    </view>
-    <view wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapShanghaipai">
-        <image
-          class="icon"
-          src="../../images/wangyun.jpg"
-          mode="aspectFit"
-          alt="连计"
-        />
-        <span class="skill-display">连计</span>
-      </button>
-    </view>
-    <view wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapJingong">
-        <image
-          class="icon"
-          src="../../images/wangyun.jpg"
-          mode="aspectFit"
-          alt="矜功"
-        />
-        <span class="skill-display">矜功</span>
-      </button>
-    </view>
-    <view wx:if="{{currentNav=='魏'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapShefu">
-        <image
-          class="icon"
-          src="../../images/chengyu.jpg"
-          mode="aspectFit"
-          alt="设伏"
-        />
-        <span class="skill-display">设伏</span>
-      </button>
-    </view>
-    <div wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapLangxi">
-        <image
-          class="icon"
-          src="../../images/lijue.jpg"
-          mode="aspectFit"
-          alt="狼袭"
-        />
-        <span class="skill-display">狼袭</span>
-      </button>
-    </div>
-    <div wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapXionghuo">
+    <block wx:if="{{currentNav=='群'}}">
+      <view class="btn-wrapper">
+        <button class="btn-skill" data-poolname="Chupai" bindtap="tapxushaoActive">
           <image
             class="icon"
-            src="../../images/xurong.jpg"
+            src="../../images/xushao.jpg"
             mode="aspectFit"
-            alt="凶镬"
+            alt="出牌阶段"
           />
-          <span class="skill-display">凶镬</span>
+          <span class="skill-display">出牌阶段</span>
         </button>
-    </div>
-    <div wx:if="{{currentNav=='魏'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapFujian">
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" data-poolname="Shoushang" bindtap="tapxushaoActive">
+          <image
+            class="icon"
+            src="../../images/xushao.jpg"
+            mode="aspectFit"
+            alt="受到伤害后"
+          />
+          <span class="skill-display">受到伤害</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" data-poolname="Jieshu" bindtap="tapxushaoActive">
+          <image
+            class="icon"
+            src="../../images/xushao.jpg"
+            mode="aspectFit"
+            alt="结束阶段"
+          />
+          <span class="skill-display">结束阶段</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapxushaoReset">
+          <image
+            class="icon"
+            src="../../images/xushao.jpg"
+            mode="aspectFit"
+            alt="出牌阶段"
+          />
+          <span class="skill-display">重置评荐</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapShanghaipai">
+          <image
+            class="icon"
+            src="../../images/wangyun.jpg"
+            mode="aspectFit"
+            alt="连计"
+          />
+          <span class="skill-display">连计</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapJingong">
+          <image
+            class="icon"
+            src="../../images/wangyun.jpg"
+            mode="aspectFit"
+            alt="矜功"
+          />
+          <span class="skill-display">矜功</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapLangxi">
+          <image
+            class="icon"
+            src="../../images/lijue.jpg"
+            mode="aspectFit"
+            alt="狼袭"
+          />
+          <span class="skill-display">狼袭</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapXionghuo">
+            <image
+              class="icon"
+              src="../../images/xurong.jpg"
+              mode="aspectFit"
+              alt="凶镬"
+            />
+            <span class="skill-display">凶镬</span>
+          </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapShouxi">
+          <image
+            class="icon"
+            src="../../images/caojie.jpg"
+            mode="aspectFit"
+            alt="守玺"
+          />
+          <span class="skill-display">守玺</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapTaoluan">
+          <image
+            class="icon"
+            src="../../images/zhangrang.jpg"
+            mode="aspectFit"
+            alt="滔乱"
+          />
+          <span class="skill-display">滔乱</span>
+        </button>
+      </view>
+    </block>
+    <block wx:if="{{currentNav=='魏'}}">
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapShefu">
+          <image
+            class="icon"
+            src="../../images/chengyu.jpg"
+            mode="aspectFit"
+            alt="设伏"
+          />
+          <span class="skill-display">设伏</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapFujian">
           <image
             class="icon"
             src="../../images/caoying.jpg"
@@ -109,9 +134,9 @@
           />
           <span class="skill-display">伏间</span>
         </button>
-    </div>
-    <div wx:if="{{currentNav=='魏'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapShanli">
+      </view>
+      <view class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapShanli">
           <image
             class="icon"
             src="../../images/simashi.jpg"
@@ -120,7 +145,19 @@
           />
           <span class="skill-display">擅立</span>
         </button>
-    </div>
+      </view>
+      <view wx:if="{{DIYEnabled}}" class="btn-wrapper">
+        <button class="btn-skill" bindtap="tapCaoyi">
+          <image
+            class="icon"
+            src="../../images/caocao.jpg"
+            mode="aspectFit"
+            alt="清冷"
+          />
+          <span class="skill-display">曹裔</span>
+        </button>
+      </view>
+    </block>
     <div wx:if="{{currentNav=='晋'}}" class="btn-wrapper">
       <button class="btn-skill" bindtap="tapGeweishu">
           <image
@@ -132,29 +169,9 @@
           <span class="skill-display">清冷</span>
         </button>
     </div>
-    <div wx:if="{{currentNav=='魏' && DIYEnabled}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapCaoyi">
-          <image
-            class="icon"
-            src="../../images/caocao.jpg"
-            mode="aspectFit"
-            alt="清冷"
-          />
-          <span class="skill-display">曹裔</span>
-        </button>
-    </div>
+  
   </view>
-  <!-- <view wx:if="{{currentNav=='群'}}" class="btn-wrapper">
-      <button class="btn-skill" bindtap="tapShouxi">
-        <image
-          class="icon"
-          src="../../images/caojie.jpg"
-          mode="aspectFit"
-          alt="守玺"
-        />
-        <span class="skill-display">设伏</span>
-      </button>
-    </view> -->
+ 
 </view>
 
 <modal wx:if="{{xushao.showModal}}" no-cancel="true" confirm-text="">
@@ -184,9 +201,10 @@
       {{xushao.TEXTS[item]}}
     </p>
   </div>
-
 </modal>
 
+
+<view class="modal-mask" catchtouchmove="preventTouchMove" wx:if="{{chengyu.showModal || zhangrang.showModal || caojie.showModal || canying.showModal}}" />
 <div class="modal" wx:if="{{caoying.showModal}}">
   <div class="modal-content">
     <div class="modal-body">
@@ -262,6 +280,61 @@
     </div>
   </div>
 </div>
+
+<div class="modal shefu-modal" wx:if="{{caojie.showModal}}">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="check-box">
+        <block
+          wx:for="{{caojie.cardCheckBox}}"
+        >
+          <button wx:if="{{item}}" class="btn-checked">
+            {{CARDS[index].shortname}}
+          </button>
+          <button wx:else class="btn-unchecked" data-cardname="{{index}}" bindtap="tapShouxiCard"> 
+            {{CARDS[index].shortname}}
+          </button>
+        </block>
+      </div>
+    </div>
+    <div class="modal-tail">
+      <button bindtap="tapShouxiReset">
+        清除
+      </button>
+      <button bindtap="tapShouxiClose">
+        关闭
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal shefu-modal" wx:if="{{zhangrang.showModal}}">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="check-box">
+        <block
+          wx:for="{{zhangrang.cardCheckBox}}"
+        >
+          <button wx:if="{{item}}" class="btn-checked">
+            {{CARDS[index].shortname}}
+          </button>
+          <button wx:else class="btn-unchecked" data-cardname="{{index}}" bindtap="tapTaoluanCard"> 
+            {{CARDS[index].shortname}}
+          </button>
+        </block>
+      </div>
+    </div>
+    <div class="modal-tail">
+      <button bindtap="tapTaoluanReset">
+        清除
+      </button>
+      <button bindtap="tapTaoluanClose">
+        关闭
+      </button>
+    </div>
+  </div>
+</div>
+
 <view class='tail-funcs'>
   <view class='pkg-switch'>
     <p>用间</p>
@@ -279,7 +352,7 @@
 </view>
 <div class='nav-bar'>
   <button
-    wx:for="{{['魏', '群', '晋', '吴', '蜀']}}"    
+    wx:for="{{['群', '魏', '晋', '吴', '蜀']}}"    
     wx:for-index="index"
     wx:key="index"
     wx:for-item="item"

@@ -14,6 +14,7 @@
 
 
 const CARDS = new Map([
+  /* 基本 */
   ['杀', {
     name: '杀',
     shortname: '杀',
@@ -67,12 +68,23 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '延时',
   }],
-  ['过河拆桥', {
-    name: '过河拆桥',
-    shortname: "拆",
+
+   
+  ['南蛮入侵', {
+    name: '南蛮入侵',
+    shortname: "南蛮",
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isDamage: true,
+  }],
+  ['万箭齐发', {
+    name: '万箭齐发',
+    shortname: "万剑",
+    package: '军争',
+    type: '锦囊',
+    subtype: '普通',
+    isDamage: true,
   }],
   ['火攻', {
     name: '火攻',
@@ -81,14 +93,6 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
     isDamage: true,
-  }],
-
-  ['借刀杀人', {
-    name: '借刀杀人',
-    shortname: "借刀",
-    package: '军争',
-    type: '锦囊',
-    subtype: '普通',
   }],
   ['决斗', {
     name: '决斗',
@@ -99,23 +103,10 @@ const CARDS = new Map([
     isDamage: true,
   }],
 
-  ['美人计', {
-    name: '美人计',
-    shortname: "美人",
-    package: '王允专属',
-    type: '锦囊',
-    subtype: '普通',
-  }],
-  ['笑里藏刀', {
-    name: '笑里藏刀',
-    shortname: "笑里",
-    package: '王允专属',
-    type: '锦囊',
-    subtype: '普通',
-  }],
-  ['南蛮入侵', {
-    name: '南蛮入侵',
-    shortname: "南",
+
+  ['过河拆桥', {
+    name: '过河拆桥',
+    shortname: "拆",
     package: '军争',
     type: '锦囊',
     subtype: '普通',
@@ -123,6 +114,14 @@ const CARDS = new Map([
   ['顺手牵羊', {
     name: '顺手牵羊',
     shortname: "顺",
+    package: '军争',
+    type: '锦囊',
+    subtype: '普通',
+  }],
+
+  ['借刀杀人', {
+    name: '借刀杀人',
+    shortname: "借刀",
     package: '军争',
     type: '锦囊',
     subtype: '普通',
@@ -141,21 +140,6 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
   }],
-  ['万箭齐发', {
-    name: '万箭齐发',
-    shortname: "万剑",
-    package: '军争',
-    type: '锦囊',
-    subtype: '普通',
-    isDamage: true,
-  }],
-  ['无懈可击', {
-    name: '无懈可击',
-    shortname: "无懈",
-    package: '军争',
-    type: '锦囊',
-    subtype: '普通',
-  }],  
   ['无中生有', {
     name: '无中生有',
     shortname: "无中",
@@ -170,6 +154,14 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
   }],
+  ['无懈可击', {
+    name: '无懈可击',
+    shortname: "无懈",
+    package: '军争',
+    type: '锦囊',
+    subtype: '普通',
+  }],  
+
 
   /* 用间锦囊 */
   ['刮骨疗毒', {
@@ -192,6 +184,7 @@ const CARDS = new Map([
     package: '用间',
     type: '锦囊',
     subtype: '普通',
+    isDamage: true
   }],
   ['推心置腹', {
     name: '推心置腹',
@@ -218,7 +211,6 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
     isMine: true,
-    isDamage: true,
   }],
   ['戮力同心', {
     name: '戮力同心',
@@ -245,6 +237,22 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
     isMine: true
+  }],
+
+  /* 其他 */
+  ['美人计', {
+    name: '美人计',
+    shortname: "美人",
+    package: '王允专属',
+    type: '锦囊',
+    subtype: '普通',
+  }],
+  ['笑里藏刀', {
+    name: '笑里藏刀',
+    shortname: "笑里",
+    package: '王允专属',
+    type: '锦囊',
+    subtype: '普通',
   }],
 ])
 

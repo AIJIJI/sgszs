@@ -9,7 +9,7 @@ Page({
   data: {
     yongjianEnabled: false,
     DIYEnabled: false,
-    currentNav: '魏',
+    currentNav: '群',
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     xushao: {
@@ -33,77 +33,48 @@ Page({
       cardCheckBox: undefined,
       showModal: false,
       displayCards: [],
+    },
+    zhangrang: {
+      cardCheckBox: undefined,
+      showModal: false,
+      displayCards: [],
     }
   },
 
   /* ⬇⬇⬇ 工具函数 ⬇⬇⬇ */
-  /* 初始化设伏, 重新计算要展示的牌，清空被选中的牌 */
-  resetShefu() {
-    let displayCards = []
-    displayCards.push.apply(
-      displayCards,
-      Array.from(CARDS)
-      .filter(([key, value]) => value.package == '军争')
-    )
-
+  /* 卡牌过滤器 */
+  filteredCards(skill) {
+    let cards = []
+    cards.push.apply(cards, Array.from(CARDS).filter(([key, value]) => value.package == '军争'))
     if (this.data.yongjianEnabled) {
-      displayCards.push.apply(
-        displayCards,
-        Array.from(CARDS).filter(([key, value]) =>
-          value.package == '用间' && value.name !== '毒')
-        )
+      cards.push.apply(cards, Array.from(CARDS).filter(([key, value]) => value.package == '用间'))
     }
     if (this.data.DIYEnabled) {
-      displayCards.push.apply(
-        displayCards,
-        Array.from(CARDS).filter(([key, value]) => value.isMine)
-      )
+      cards.push.apply(cards, Array.from(CARDS).filter(([key, value]) => value.isMine))
     }
-    displayCards = displayCards.map(([key, value]) => key)
-    
-    let newbox = Array.from(CARDS)
-      .filter(([key, value]) => displayCards.includes(key))
-      .map(([key, value]) => [key, 0])
+    cards = cards.filter(([key, value]) => {
+      switch(skill) {
+        case '设伏':
+          return (value.type == '基本' || value.type == '锦囊') && value.name != '毒' 
+        case '守玺':
+          return value.type == '基本' || value.type == '锦囊'
+        case '滔乱':
+          return (value.type == '基本' && value.name != '毒') || (value.type == '锦囊' && value.subtype == '普通') 
+        case '连计':
+          return value.isDamage
+      }
+    }) 
+    return cards
+  },
 
+  /* 初始化技能 cardbox, 重新计算要展示的牌，清空被选中的牌 */
+  resetCardbox(key, skill) {
+    let newbox = this.filteredCards(skill).map(([key, value]) => [key, 0])
     this.setData({
-      ['chengyu.cardCheckBox']:
+      [`${key}.cardCheckBox`]:
       Object.fromEntries(newbox)
     })
   },
-
-    /* 初始化设伏, 重新计算要展示的牌，清空被选中的牌 */
-    resetShouxi() {
-      let displayCards = []
-      displayCards.push.apply(
-        displayCards,
-        Array.from(CARDS)
-        .filter(([key, value]) => value.package == '军争')
-      )
-  
-      if (this.data.yongjianEnabled) {
-        displayCards.push.apply(
-          displayCards,
-          Array.from(CARDS).filter(([key, value]) =>
-            value.package == '用间' && value.name !== '毒')
-          )
-      }
-      if (this.data.DIYEnabled) {
-        displayCards.push.apply(
-          displayCards,
-          Array.from(CARDS).filter(([key, value]) => value.isMine)
-        )
-      }
-      displayCards = displayCards.map(([key, value]) => key)
-      
-      let newbox = Array.from(CARDS)
-        .filter(([key, value]) => displayCards.includes(key))
-        .map(([key, value]) => [key, 0])
-  
-      this.setData({
-        ['chengyu.cardCheckBox']:
-        Object.fromEntries(newbox)
-      })
-    },
   /* ⬆⬆⬆ 工具函数 ⬆⬆⬆ */
 
 
@@ -111,7 +82,9 @@ Page({
   /* 初始化数据 */
   onReady() {
     this.setData({CARDS: Object.fromEntries(CARDS)})
-    this.resetShefu()
+    this.resetCardbox('chengyu', '设伏')
+    this.resetCardbox('caojie', '守玺')
+    this.resetCardbox('zhangrang', '滔乱')
   },
   /* ⬆⬆⬆ 生命周期函数 ⬆⬆⬆ */
  
@@ -152,7 +125,7 @@ Page({
   },
 
   tapShefuReset: function (event) {
-    this.resetShefu()
+    this.resetCardbox('chengyu', '设伏')
   },
 
   tapShefuClose: function (event) {
@@ -163,47 +136,89 @@ Page({
 
   /* ⬇ 守玺 ⬇ */
   tapShouxi: function (event) {
-    this.setData({['chengyu.showModal']: true})
+    this.setData({['caojie.showModal']: true})
   },
 
   tapShouxiCard: function (event) {
     let cardName = event.target.dataset.cardname
-    let currentFlag = this.data.chengyu.cardCheckBox[cardName]
+    let currentFlag = this.data.caojie.cardCheckBox[cardName]
     let audio = wx.createInnerAudioContext()
     let content = ''
     if (currentFlag == 0) {
-      content = '发动设伏'
-    } else {
-      content = `取消${cardName}`
+      content = `申明${cardName}`
+      SIPlugin.textToSpeech({
+        lang: "zh_CN",
+        tts: true,
+        content: content,
+        success: function(res) {
+          audio.src = res.filename
+          audio.play()
+        },
+        fail: function(res) {
+            console.log("fail tts", res)
+        }
+      })
     }
-    SIPlugin.textToSpeech({
-      lang: "zh_CN",
-      tts: true,
-      content: content,
-      success: function(res) {
-        audio.src = res.filename
-        audio.play()
-      },
-      fail: function(res) {
-          console.log("fail tts", res)
-      }
-    })
+
+      
     this.setData({
-      [`chengyu.cardCheckBox.${cardName}`]:
-        1 - this.data.chengyu.cardCheckBox[cardName],
-      "chengyu.showModal": false,
+      [`caojie.cardCheckBox.${cardName}`]:
+        1 - this.data.caojie.cardCheckBox[cardName],
       })
   },
 
   tapShouxiReset: function (event) {
-    this.resetShefu()
+    this.resetCardbox('caojie', '守玺')
   },
 
   tapShouxiClose: function (event) {
     this.setData({
-      "chengyu.showModal": false,
+      "caojie.showModal": false,
       })
   },
+
+    /* ⬇ 滔乱 ⬇ */
+    tapTaoluan: function (event) {
+      this.setData({['zhangrang.showModal']: true})
+    },
+  
+    tapTaoluanCard: function (event) {
+      let cardName = event.target.dataset.cardname
+      let currentFlag = this.data.zhangrang.cardCheckBox[cardName]
+      let audio = wx.createInnerAudioContext()
+      let content = ''
+      if (currentFlag == 0) {
+        content = `使用${cardName}`
+        SIPlugin.textToSpeech({
+          lang: "zh_CN",
+          tts: true,
+          content: content,
+          success: function(res) {
+            audio.src = res.filename
+            audio.play()
+          },
+          fail: function(res) {
+              console.log("fail tts", res)
+          }
+        })
+      }
+  
+        
+      this.setData({
+        [`zhangrang.cardCheckBox.${cardName}`]:
+          1 - this.data.zhangrang.cardCheckBox[cardName],
+        })
+    },
+  
+    tapTaoluanReset: function (event) {
+      this.resetCardbox('zhangrang', '滔乱')
+    },
+  
+    tapTaoluanClose: function (event) {
+      this.setData({
+        "zhangrang.showModal": false,
+        })
+    },
 
   /* ⬇ 伏间 ⬇ */
   tapFujian: function (event) {
@@ -357,68 +372,7 @@ Page({
     })
   },
 
-  /* ⬆⬆⬆ 技能事件监听 ⬆⬆⬆ */
- 
-
-  switchYongjian(event) {
-    this.setData({yongjianEnabled: !this.data.yongjianEnabled})
-    this.resetShefu()
-    // this.setData({yongjianEnabled: true})
-  },
-  
-  switchDIY(event) {
-    this.setData({DIYEnabled: !this.data.DIYEnabled})
-    this.resetShefu()
-    // this.setData({yongjianEnabled: true})
-  },
-
-
-  onShareAppMessa1ge (){
-    return {
-      title: "三国杀面杀助手"
-    }
-  },
-
-  tapPay: function () {
-    wx.navigateTo({url: '/pages/pay/pay'})
-  },
-
-  tapGeweishu: function () {
-    wx.showModal({
-      icon: 'none',
-      content: String(util.getRandomInt(0, 9)),
-      showCancel: false
-    })
-  },
-
-
-  tapShanghaipai: function () {
-    const choice = util.getRandomInt(1, 5);
-    let msg;
-    switch (choice) {
-      case 1:
-        msg = '杀'
-        break
-      case 2:
-        msg = '万箭齐发'
-        break
-      case 3:
-        msg = '决斗'
-        break
-      case 4:
-        msg = '火攻'
-        break
-      case 5:
-        msg = '南蛮入侵'
-        break
-    }
-    wx.showModal({
-      icon: 'none',
-      content: msg,
-      showCancel: false
-    })
-  },
-
+  /* ⬇ 矜功 ⬇ */
   tapJingong: function () {
     const choice = util.getRandomInt(1, 2);
     let jinnang = [
@@ -452,6 +406,65 @@ Page({
       showCancel: false
     })
   },
+  /* ⬆⬆⬆ 技能事件监听 ⬆⬆⬆ */
+ 
+
+  switchYongjian(event) {
+    this.setData({yongjianEnabled: !this.data.yongjianEnabled})
+    this.resetCardbox('chengyu', '设伏')
+    this.resetCardbox('caojie', '守玺')
+    this.resetCardbox('zhangrang', '滔乱')
+    // this.setData({yongjianEnabled: true})
+  },
+  
+  switchDIY(event) {
+    this.setData({DIYEnabled: !this.data.DIYEnabled})
+    this.resetCardbox('chengyu', '设伏')
+    this.resetCardbox('caojie', '守玺')
+    this.resetCardbox('zhangrang', '滔乱')
+    // this.setData({yongjianEnabled: true})
+  },
+
+
+  onShareAppMessa1ge (){
+    return {
+      title: "三国杀面杀助手"
+    }
+  },
+
+  tapPay: function () {
+    wx.navigateTo({url: '/pages/pay/pay'})
+  },
+
+  tapGeweishu: function () {
+    wx.showModal({
+      icon: 'none',
+      content: String(util.getRandomInt(0, 9)),
+      showCancel: false
+    })
+  },
+
+
+  tapShanghaipai: function () {
+    let cards = this.filteredCards('连计')
+    console.log(cards)
+    let choice = util.getRandomInt(1, cards.length)
+    let card = cards[choice - 1][1].name
+    let content = ''
+    if (card == '杀') {
+      content = '*使用杀选其为目标则无距离限制，额外选除其以外的角色则有距离限制'
+    } else if (card == '火烧连营') {
+      content = '若其不为合法目标请重新随机'
+    }
+    wx.showModal({
+      icon: 'none',
+      title: card,
+      content: content,
+      showCancel: false
+    })
+  },
+
+
   tapCaoyi: function () {
     let jineng = [
       '（曹昂）慷忾\n当一名角色成为杀的目标后，若你与其距离1以内，则你可以摸一张牌，然后交给其一张牌并展示之。若此牌为装备牌，该角色可以使用此牌。',
