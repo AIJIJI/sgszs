@@ -1,6 +1,6 @@
 <view class="container">
   <view class="button-row">
-    <block wx:if="{{currentNav=='群'}}">
+    <block wx:if="true || {{currentNav=='群'}}">
       <view class="btn-wrapper">
         <button class="btn-skill" data-poolname="Chupai" bindtap="tapxushaoActive">
           <image
@@ -112,7 +112,7 @@
         </button>
       </view>
     </block>
-    <block wx:if="{{currentNav=='魏'}}">
+    <block wx:if="true || {{currentNav=='魏'}}">
       <view class="btn-wrapper">
         <button class="btn-skill" bindtap="tapShefu">
           <image
@@ -158,7 +158,7 @@
         </button>
       </view>
     </block>
-    <div wx:if="{{currentNav=='晋'}}" class="btn-wrapper">
+    <div wx:if="true || {{currentNav=='晋'}}" class="btn-wrapper">
       <button class="btn-skill" bindtap="tapGeweishu">
           <image
             class="icon"
@@ -344,13 +344,13 @@
     <p>DIY</p>
     <switch type='switch' checked="{{DIYsEnabled}}" bindchange='switchDIY' />
   </view>
-  <div class='pay-btn-content'>
+  <!-- <div class='pay-btn-content'>
     <button size="mini" class='pay-btn' bindtap="tapPay">
       打赏
     </button>
-  </div>
+  </div> -->
 </view>
-<div class='nav-bar'>
+<!-- <div class='nav-bar'>
   <button
     wx:for="{{['群', '魏', '晋', '吴', '蜀']}}"    
     wx:for-index="index"
@@ -362,4 +362,4 @@
   >
     <image class="icon" src="/images/button/{{item}}.png" mode="aspectFit" />
   </button>
-</div>
+</div> -->

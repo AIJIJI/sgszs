@@ -290,7 +290,9 @@ Page({
   tapxushaoReset: function(event) {
     this.setData({
       ['xushao.pool']:
-        JSON.parse(JSON.stringify(xushaoSkill.XUSHAO_SKILL_POOLS))})
+        JSON.parse(JSON.stringify(
+          this.data.yongjianEnabled ? xushaoSkill.EX_SKILL : xushaoSkill.XUSHAO_SKILL_POOLS
+        ))})
     wx.showModal({content:"已重置", showCancel: false})
   },
 
@@ -301,6 +303,7 @@ Page({
       ['xushao.pool.'+poolIndex]: this.data.xushao.pool[poolIndex].filter((x) => x !== choice),
       ['xushao.showModal']: false
     })
+    // console.log(this.data.xushao.pool["Chupai"].length)
   },
 
   tapxushaoActive: function(event) {
@@ -414,6 +417,11 @@ Page({
     this.resetCardbox('chengyu', '设伏')
     this.resetCardbox('caojie', '守玺')
     this.resetCardbox('zhangrang', '滔乱')
+    this.setData({
+      ['xushao.pool']:
+        JSON.parse(JSON.stringify(
+          this.data.yongjianEnabled ? xushaoSkill.EX_SKILL : xushaoSkill.XUSHAO_SKILL_POOLS
+        ))})
     // this.setData({yongjianEnabled: true})
   },
   

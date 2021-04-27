@@ -242,7 +242,7 @@ page {
   display: flex;
   width: 100%;
   position: fixed;
-  bottom: 200rpx;
+  bottom: 20rpx;
 }
 
 .pay-btn-content {
