@@ -20,6 +20,11 @@ Page({
       TEXTS: xushaoSkill.XUSHAO_SKILL_TEXTS,
       OWNERS: xushaoSkill.XUSHAO_SKILL_OWNERS
     },
+    zhongyan: {
+      TEXTS: xushaoSkill.ZHONGYAN_SKILLS,
+      options: [],
+      showModal: false,
+    },
     caoying: {
       numberCheckBox: [1, 1, 1, 1, 1, 1, 0, 0],
       showModal: false,
@@ -309,9 +314,9 @@ Page({
   tapxushaoActive: function(event) {
     let poolname = event.target.dataset.poolname
     let pool = this.data.xushao.pool[poolname]
-    let c1 = pool.splice(Math.random() * (pool.length - 1), 1)[0]
-    let c2 = pool.splice(Math.random() * (pool.length - 1), 1)[0]
-    let c3 = pool.splice(Math.random() * (pool.length - 1), 1)[0]
+    let c1 = pool.splice(Math.random() * (pool.length), 1)[0]
+    let c2 = pool.splice(Math.random() * (pool.length), 1)[0]
+    let c3 = pool.splice(Math.random() * (pool.length), 1)[0]
     pool.push(c1)
     pool.push(c2)
     pool.push(c3)
@@ -321,6 +326,34 @@ Page({
       ['xushao.options']: [c1, c2, c3]
     })
   },
+
+  tapZhongyanChoose(event) {
+    this.setData({
+      ['zhongyan.showModal']: false
+    })
+
+  },
+
+  tapZhongyanInfo: function(event) {
+    let skill = event.target.dataset.option
+    wx.showModal({
+      icon: 'none',
+      content: xushaoSkill.ZHONGYAN_SKILLS[skill],
+      showCancel: false
+    })
+  },
+
+  tapZhongyan: function(event) {
+    let pool = Object.keys(this.data.zhongyan.TEXTS)
+    let c1 = pool.splice(Math.random() * pool.length, 1)[0]
+    let c2 = pool.splice(Math.random() * pool.length, 1)[0]
+    let c3 = pool.splice(Math.random() * pool.length, 1)[0]
+    this.setData({
+      ['zhongyan.showModal']: true,
+      ['zhongyan.options']: [c1, c2, c3]
+    })
+  },
+
 
   /* ⬇ 凶镬 ⬇ */
   tapXionghuo: function () {
@@ -442,6 +475,11 @@ Page({
 
   tapPay: function () {
     wx.navigateTo({url: '/pages/pay/pay'})
+  },
+
+  
+  tapYufeng: function () {
+    wx.navigateTo({url: '/pages/flip/flip'})
   },
 
   tapGeweishu: function () {

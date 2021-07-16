@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/pay/pay",
-    "pages/friend/friend"
+    "pages/friend/friend",
+    "pages/flip/flip"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -13,9 +14,9 @@
   },
   "sitemapLocation": "sitemap.json",
   "plugins": {
-    "WechatSI": { 
-      "version": "0.3.4",           
-      "provider": "wx069ba97219f66d99" 
+    "WechatSI": {
+      "version": "0.3.4",
+      "provider": "wx069ba97219f66d99"
     }
   }
 }

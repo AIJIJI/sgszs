@@ -2,6 +2,17 @@
   <view class="button-row">
     <block wx:if="true || {{currentNav=='群'}}">
       <view class="btn-wrapper">
+        <button class="btn-skill" data-poolname="zhongyan" bindtap="tapZhongyan">
+          <image
+            class="icon"
+            src="../../images/zhongyan.jpg"
+            mode="aspectFit"
+            alt="钟琰"
+          />
+          <span class="skill-display">博览</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
         <button class="btn-skill" data-poolname="Chupai" bindtap="tapxushaoActive">
           <image
             class="icon"
@@ -169,10 +180,45 @@
           <span class="skill-display">清冷</span>
         </button>
     </div>
-  
+    <!-- <div wx:if="true || {{currentNav=='晋'}}" class="btn-wrapper">
+      <button class="btn-skill" bindtap="tapYufeng">
+          <image
+            class="icon"
+            src="../../images/zhangchunhua.jpg"
+            mode="aspectFit"
+            alt="清冷"
+          />
+          <span class="skill-display">御风</span>
+        </button>
+    </div> -->
   </view>
  
 </view>
+
+<modal wx:if="{{zhongyan.showModal}}" no-cancel="true" confirm-text="">
+  <div
+    class="xushao-option"
+    wx:for="{{zhongyan.options}}"
+    wx:for-index="index"
+    wx:key="index"
+    wx:for-item="item"
+  >
+    <button class="xushao-skill-btn"
+      data-option="{{item}}"
+      bindtap="tapZhongyanChoose"
+    >
+      {{item}}
+    </button>
+    <p
+      class="xushao-skill-info"
+      wx:if="{{zhongyan.TEXTS[item]}}"
+      data-option="{{item}}"
+      bindtap="tapZhongyanInfo"
+    >
+      {{zhongyan.TEXTS[item]}}
+    </p>
+  </div>
+</modal>
 
 <modal wx:if="{{xushao.showModal}}" no-cancel="true" confirm-text="">
   <h1>选择技能并移出技能池</h1>

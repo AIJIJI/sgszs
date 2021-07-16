@@ -1,0 +1,37 @@
+<!-- <!DOCTYPE html>
+<html>
+ 
+    <head>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="js/Equation.js" defer="defer" type="text/javascript" charset="utf-8"></script>
+        <script src="js/Util.js" defer="defer" type="text/javascript" charset="utf-8"></script>
+        <script src="js/Event.js" defer="defer" type="text/javascript" charset="utf-8"></script>
+
+        <script src="js/setting.js" defer="defer" type="text/javascript" charset="utf-8"></script>
+        <script src="js/world.js" defer="defer" type="text/javascript" charset="utf-8"></script>
+        <script src="js/obstacle.js" defer="defer" type="text/javascript" charset="utf-8"></script>
+        <script src="js/bird.js" defer="defer" type="text/javascript" charset="utf-8"></script>
+        <script src="js/flipbird.js" defer="defer" type="text/javascript" charset="utf-8"></script>
+
+        <title></title>
+    </head> -->
+ 
+    <view>
+        <span class="pieces">0</span>
+        <canvas id="canvas" style="background:url('../../images/flip/background.png') no-repeat" ></canvas>
+    <!-- <script>
+        window.onload(function() {
+            setTimeout(function(){
+                if(typeof(window.scrollTo) == 'function'){
+                    window.scrollTo(0, 1);
+                }
+            }, 100);
+        });
+    </script> -->
+  </view>
+<!--  
+</html> -->
