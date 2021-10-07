@@ -257,7 +257,7 @@ page {
 }
 
 .pkg-switch p {
-  font-size: 35rpx;
+  font-size: 30rpx;
   color: white;
   height: 50rpx;
   margin-top: 10rpx;
