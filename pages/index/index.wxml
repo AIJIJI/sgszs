@@ -2,6 +2,17 @@
   <view class="button-row">
     <block wx:if="true || {{currentNav=='群'}}">
       <view class="btn-wrapper">
+        <button class="btn-skill" data-poolname="zhouqun" bindtap="tapTiansuan">
+          <image
+            class="icon"
+            src="../../images/zhouqun.jpg"
+            mode="aspectFit"
+            alt="周群"
+          />
+          <span class="skill-display">天算</span>
+        </button>
+      </view>
+      <view class="btn-wrapper">
         <button class="btn-skill" data-poolname="zhongyan" bindtap="tapZhongyan">
           <image
             class="icon"
@@ -250,44 +261,86 @@
 </modal>
 
 
-<view class="modal-mask" catchtouchmove="preventTouchMove" wx:if="{{chengyu.showModal || zhangrang.showModal || caojie.showModal || canying.showModal}}" />
-<div class="modal" wx:if="{{caoying.showModal}}">
-  <div class="modal-content">
-    <div class="modal-body">
-      <div class="modal-title">
-        高亮所有可能目标
-      </div>
-      <div class="check-box">
-        <block
-          wx:for="{{caoying.numberCheckBox}}"
-          wx:for-index="index"
-          wx:key="index"
-          wx:for-item="item"
-        >
-          <button
-            data-index="{{index}}"
-            wx:if="{{item}}"
-            class="btn-checked"
-            bindtap="tapFujianTarget"
+
+
+<view class="modal-mask"
+      catchtouchmove="preventTouchMove"
+      wx:if="{{chengyu.showModal || zhangrang.showModal || caojie.showModal || canying.showModal || tiansuan.showModal }}"
+/>
+  <div class="modal" wx:if="{{caoying.showModal}}">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="modal-title">
+          高亮所有可能目标
+        </div>
+        <div class="check-box">
+          <block
+            wx:for="{{caoying.numberCheckBox}}"
+            wx:for-index="index"
+            wx:key="index"
+            wx:for-item="item"
           >
-            {{index+1}}
+            <button
+              data-index="{{index}}"
+              wx:if="{{item}}"
+              class="btn-checked"
+              bindtap="tapFujianTarget"
+            >
+              {{index+1}}
+            </button>
+            <button 
+              wx:else class="btn-unchecked" data-index="{{index}}"
+              bindtap="tapFujianTarget"
+            >
+              {{index+1}}
+            </button>
+          </block>
+        </div>
+        <div class="modal-tail">
+          <button bindtap="tapFujianRoll">
+            随机
           </button>
-          <button 
-            wx:else class="btn-unchecked" data-index="{{index}}"
-            bindtap="tapFujianTarget"
-          >
-            {{index+1}}
-          </button>
-        </block>
-      </div>
-      <div class="modal-tail">
-        <button bindtap="tapFujianRoll">
-          随机
-        </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal" wx:if="{{tiansuan.showModal}}">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="modal-title">
+          可选择要复制的签
+        </div>
+        <div class="check-box">
+          <block
+            wx:for="{{[0,1,2,3,4]}}"
+            wx:for-index="index"
+            wx:key="index"
+            wx:for-item="item"
+          >
+            <button
+              data-index="{{index}}"
+              wx:if="{{index === tiansuan.numberChecked}}"
+              class="btn-checked"
+              bindtap="tapTiansuanTarget"
+            >
+              {{tiansuan.labels[index]}}
+            </button>
+            <button 
+              wx:else class="btn-unchecked" data-index="{{index}}"
+              bindtap="tapTiansuanTarget"
+            >
+              {{tiansuan.labels[index]}}
+            </button>
+          </block>
+        </div>
+        <div class="modal-tail">
+          <button bindtap="tapTiansuanRoll">
+            抽签
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <div class="modal shefu-modal" wx:if="{{chengyu.showModal}}">
   <div class="modal-content">
@@ -382,6 +435,10 @@
 </div>
 
 <view class='tail-funcs'>
+  <view class='pkg-switch'>
+    <p>应变</p>
+    <switch type='switch' checked="{{yingbianEnabled}}" bindchange='switchYingbian' />
+  </view>
   <view class='pkg-switch'>
     <p>用间</p>
     <switch type='switch' checked="{{yongjianEnabled}}" bindchange='switchYongjian' />

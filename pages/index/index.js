@@ -8,6 +8,7 @@ var SIPlugin = requirePlugin("WechatSI")
 Page({
   data: {
     yongjianEnabled: false,
+    yingbianEnabled: false,
     DIYEnabled: false,
     currentNav: '群',
     hasUserInfo: false,
@@ -28,6 +29,11 @@ Page({
     caoying: {
       numberCheckBox: [1, 1, 1, 1, 1, 1, 0, 0],
       showModal: false,
+    },
+    tiansuan: {
+      numberChecked: -1,
+      showModal: false,
+      labels:  ["上上签","上签","中签","下签","下下签"],
     },
     chengyu: {
       cardCheckBox: undefined,
@@ -56,6 +62,10 @@ Page({
     }
     if (this.data.DIYEnabled) {
       cards.push.apply(cards, Array.from(CARDS).filter(([key, value]) => value.isMine))
+    }
+    if (this.data.yingbianEnabled) {
+      cards = []
+      cards.push.apply(cards, Array.from(CARDS).filter(([key, value]) => value.isYingbian))
     }
     cards = cards.filter(([key, value]) => {
       switch(skill) {
@@ -257,7 +267,60 @@ Page({
       }
     })
   },
+  /* ⬇ 天算 ⬇ */
+  tapTiansuan: function (event) {
+    this.setData({['tiansuan.showModal']: true})
+  },
+ 
+  tapTiansuanTarget: function (event) {
+    let index = event.target.dataset.index
+    if (index === this.data.tiansuan.numberChecked) {
+      this.setData({"tiansuan.numberChecked": -1})
+    } else {
+      this.setData({"tiansuan.numberChecked": index})
+    }
+  },
+  
+  closeTiansuan: function (event) {
+    this.setData({['caoying.showModal']: false})
+  },
 
+  tapTiansuanRoll: function (event) {
+    let res = "0"
+    let that = this
+    let lst = [0,1,2,3,4]
+    if (this.data.tiansuan.numberChecked != -1) {
+      lst.push(this.data.tiansuan.numberChecked)
+    }
+    res = String(lst[Math.floor((Math.random()*lst.length))])
+    res = this.data.tiansuan.labels[res]
+    let content
+    if (res == "中签") {
+      content = "钟签"
+    } else {
+      content = res
+    }
+    let audio = wx.createInnerAudioContext()
+    SIPlugin.textToSpeech({
+      lang: "zh_CN",
+      tts: true,
+      content: content,
+      success: function(res) {
+        audio.src = res.filename
+        audio.play()
+      },
+      fail: function(res) {
+        console.log("fail tts", res)
+      }
+    })
+    wx.showModal({
+      content: res,
+      showCancel: false,
+      success (res) {
+        that.setData({'tiansuan.showModal': false})
+      }
+    })
+  },
   /* ⬇ 狼袭 ⬇ */
   tapLangxi: function (event) {
     let res = String(util.getRandomInt(0, 2))
@@ -458,6 +521,19 @@ Page({
     // this.setData({yongjianEnabled: true})
   },
   
+  switchYingbian(event) {
+    this.setData({yingbianEnabled: !this.data.yingbianEnabled})
+    this.resetCardbox('chengyu', '设伏')
+    this.resetCardbox('caojie', '守玺')
+    this.resetCardbox('zhangrang', '滔乱')
+    // this.setData({
+    //   ['xushao.pool']:
+    //     JSON.parse(JSON.stringify(
+    //       this.data.yongjianEnabled ? xushaoSkill.EX_SKILL : xushaoSkill.XUSHAO_SKILL_POOLS
+    //     ))})
+    // this.setData({yongjianEnabled: true})
+  },
+
   switchDIY(event) {
     this.setData({DIYEnabled: !this.data.DIYEnabled})
     this.resetCardbox('chengyu', '设伏')
@@ -467,7 +543,13 @@ Page({
   },
 
 
-  onShareAppMessa1ge (){
+  onShareAppMessage (){
+    return {
+      title: "三国杀面杀助手"
+    }
+  },
+
+  onShareTimeline (){
     return {
       title: "三国杀面杀助手"
     }

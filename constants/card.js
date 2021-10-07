@@ -21,24 +21,28 @@ const CARDS = new Map([
     package: '军争',
     type: '基本',
     isDamage: true,
+    isYingbian: true,
   }],
   ['闪', {
     name: '闪',
     shortname: '闪',
     package: '军争',
     type: '基本',
+    isYingbian: true,
   }],
   ['桃', {
     name: '桃',
     shortname: '桃',
     package: '军争',
     type: '基本',
+    isYingbian: true,
   }],
   ['酒', {
     name: '酒',
     shortname: '酒',
     package: '军争',
     type: '基本',
+    isYingbian: true,
   }],
   ['毒', {
     name: '毒',
@@ -53,6 +57,7 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '延时',
+    isYingbian: true,
   }],
   ['乐不思蜀', {
     name: '乐不思蜀',
@@ -60,6 +65,7 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '延时',
+    isYingbian: true,
   }],
   ['闪电', {
     name: '闪电',
@@ -67,6 +73,7 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '延时',
+    isYingbian: true,
   }],
 
    
@@ -77,6 +84,7 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
     isDamage: true,
+    isYingbian: true,
   }],
   ['万箭齐发', {
     name: '万箭齐发',
@@ -85,6 +93,7 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
     isDamage: true,
+    isYingbian: true,
   }],
   ['火攻', {
     name: '火攻',
@@ -93,6 +102,7 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
     isDamage: true,
+    isYingbian: false,
   }],
   ['决斗', {
     name: '决斗',
@@ -101,6 +111,7 @@ const CARDS = new Map([
     type: '锦囊',
     subtype: '普通',
     isDamage: true,
+    isYingbian: false,
   }],
 
 
@@ -110,13 +121,17 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isYingbian: true,
   }],
+
+  
   ['顺手牵羊', {
     name: '顺手牵羊',
     shortname: "顺",
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isYingbian: true,
   }],
 
   ['借刀杀人', {
@@ -125,6 +140,7 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isYingbian: false,
   }],
   ['桃园结义', {
     name: '桃园结义',
@@ -132,6 +148,7 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isYingbian: true,
   }],
   ['铁索连环', {
     name: '铁索连环',
@@ -139,6 +156,7 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isYingbian: true,
   }],
   ['无中生有', {
     name: '无中生有',
@@ -146,6 +164,7 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isYingbian: false,
   }],
   ['五谷丰登', {
     name: '五谷丰登',
@@ -153,6 +172,7 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isYingbian: true,
   }],
   ['无懈可击', {
     name: '无懈可击',
@@ -160,8 +180,42 @@ const CARDS = new Map([
     package: '军争',
     type: '锦囊',
     subtype: '普通',
+    isYingbian: true,
   }],  
 
+  /* 应变锦囊 */
+  ['逐近弃远', {
+    name: '逐近弃远',
+    shortname: "逐近",
+    package: '应变',
+    type: '锦囊',
+    subtype: '普通',
+    isYingbian: true,
+  }],
+  ['洞烛先机', {
+    name: '洞烛先机',
+    shortname: "洞烛",
+    package: '应变',
+    type: '锦囊',
+    subtype: '普通',
+    isYingbian: true,
+  }],
+  ['出其不意', {
+    name: '出其不意',
+    shortname: "出其",
+    package: '应变',
+    type: '锦囊',
+    subtype: '普通',
+    isYingbian: true,
+  }],
+  ['水淹七军', {
+    name: '水淹七军',
+    shortname: "水淹",
+    package: '应变',
+    type: '锦囊',
+    subtype: '普通',
+    isYingbian: true,
+  }],
 
   /* 用间锦囊 */
   ['刮骨疗毒', {
